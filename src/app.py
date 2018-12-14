@@ -4,9 +4,12 @@ from	cryption	import cryptKey
 from	modyl		import mod
 
 api		= hug.get(on_invalid=hug.redirect.not_found)
-API		= hug.API(__name__)
 keys	= cryptKey.Key()
-modules	= mod.loadModules(API)
+
+def getAPI():
+	return hug.API(__name__)
+
+modules	= mod.loadModules(getAPI())
 
 @api.get(
 	'/publicKey',
@@ -34,9 +37,15 @@ def getStatus():
 def list():
 	return modules
 
+@api.post()
+def uploadModule(request):
+	mod.uploadModule(request.headers['FILENAME'], request.stream)
+	mod.loadModules(getAPI())
+	return "Success!"
+
 @api.get()
-def newModule(name, description, file, version, author):
-	mod.Module(name, description, file, version, author)
+def test():
+	return mod.uploadModule()
 
 @api.get(
 	'/{slug_one}/'
@@ -46,43 +55,43 @@ def get_one():
 
 @api.get(
 	'/{slug_one}/{slug_two}/'
-)
+) # REALLY???
 def get_two():
 	return True
 
 @api.get(
 	'/{slug_one}/{slug_two}/{slug_three}/'
-)
+) # OH DUDE, KILL ME
 def get_three():
 	return True
 
 @api.get(
 	'/{slug_one}/{slug_two}/{slug_three}/{slug_four}/'
-)
+) # NOOOOOOOOOOOO
 def get_four():
 	return True
 
 @api.get(
 	'/{slug_one}/{slug_two}/{slug_three}/{slug_four}/{slug_five}/'
-)
+) # DAMMIT
 def get_five():
 	return True
 
 @api.get(
 	'/{slug_one}/{slug_two}/{slug_three}/{slug_four}/{slug_five}/{slug_six}/'
-)
+) # OKAY, OKAY, YOU WON
 def get_six():
 	return True
 
 @api.get(
 	'/{slug_one}/{slug_two}/{slug_three}/{slug_four}/{slug_five}/{slug_six}/{slug_seven}/'
-)
+) # sorry
 def get_seven():
 	return True
 
 @api.get(
 	'/{slug_one}/{slug_two}/{slug_three}/{slug_four}/{slug_five}/{slug_six}/{slug_seven}/{slug_eight}/'
-)
+) # Please, give me a better solution
 def get_eight():
 	return True
 

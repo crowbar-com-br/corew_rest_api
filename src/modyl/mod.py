@@ -31,7 +31,10 @@ def loadModules(api	: "Hug API object, used to register our modules on the REST 
 			error.append(module) # Aaaannnddd we got a rotten apple
 	return	list
 
-def uploadModule(fileName, stream): # TODO: Implement uploadModule, wich, will receive a zip file with the package of the module; extract it in cache; check if it's a module; extract it in modules package; list it in modulesList;
+def uploadModule(
+		fileName	: "The name of the zip file, wich contains the package of the module",
+		stream		: "A zip file, in package format"
+	): # Method used to upload modules into the REST API, wich will create a package 'modules' for these modules, upload them into the same and list them into the 'modulesList'
 
 	if not os.path.exists('./modules'): # We need the modules package
 		os.makedirs('./modules') # Well, let's create it!
@@ -55,14 +58,14 @@ def uploadModule(fileName, stream): # TODO: Implement uploadModule, wich, will r
 	if not module.__dict__ in modulesList: # We already have it?
 		shutil.move(folderName, "./modules/") # No! Let's move it to our modules package
 		save(module.__dict__, "modulesList.json") # And save it in our modulesList
-		#return "Salvo!"
+		shutil.rmtree('./temp/module') # Time to clean the temp
+		return "True" # Nice!
 	else:
-		print("oi")
-		#return "Já existente" # Yes.. :c
+		shutil.rmtree('./temp/module')
+		return "False" # Yes.. :c
+	shutil.rmtree('./temp/module')
 
-	shutil.rmtree('./temp/module') # Time to clean the temp
-
-	return "False"
+	return "False" # Something went wrong...
 
 def save(data, fileName):
 	""" """

@@ -9,6 +9,19 @@ keys	= cryptKey.Key()
 def getAPI():
 	return hug.API(__name__)
 
+def updateAPI():
+	readFile = open("./app.py")
+	lines = readFile.readlines()
+	readFile.close()
+
+	a = open("./app.py",'a')
+	a.write(' ')
+	a.close()
+
+	w = open("./app.py",'w')
+	w.writelines([item for item in lines[:-1]])
+	w.close()
+
 modules	= mod.loadModules(getAPI())
 
 @api.get(
@@ -41,11 +54,8 @@ def list():
 def uploadModule(request):
 	mod.uploadModule(request.headers['FILENAME'], request.stream)
 	mod.loadModules(getAPI())
+	updateAPI() # TODO: FIND A BETTER WAY
 	return "Success!"
-
-@api.get()
-def test():
-	return mod.uploadModule()
 
 @api.get(
 	'/{slug_one}/'
@@ -97,7 +107,7 @@ def get_eight():
 
 @api.get(
 	'/{slug_one}/{slug_two}/{slug_three}/{slug_four}/{slug_five}/{slug_six}/{slug_seven}/{slug_eight}/{slug_nine}/'
-)
+) # ...
 def get_nine():
 	return True
 
@@ -173,4 +183,3 @@ def isJSON(content: "A expected JSON"):
 		object = json.loads(content)
 	except:
 		return False
-	return True

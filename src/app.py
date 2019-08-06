@@ -46,7 +46,7 @@ def getStatus():
 		'Memory': psutil.virtual_memory()[2]
 	}
 
-@api.get()
+@api.get('/')
 def list():
 	return modules
 

@@ -19,8 +19,8 @@ class Module(object):
 		self.author			= author
 
 def loadModules(api	: "Hug API object, used to register our modules on the REST API"):
-	if not os.path.exists('./cache/modulesList.json'):
-		open('./cache/modulesList.json', mode='w').write('[]')
+	if not os.path.exists('./.cache/modulesList.json'):
+		open('./.cache/modulesList.json', mode='w').write('[]')
 	list	= loadJSON("modulesList.json") # Let's load our list of modules
 	error	= [] # Well, nothing is perfect, we never know
 	for module in list:
@@ -69,11 +69,11 @@ def uploadModule(
 
 def save(data, fileName):
 	""" """
-	if not os.path.exists('./cache'):
-		os.makedirs('./cache')
-	if not os.path.exists('./cache/' + fileName):
-		open('./cache/' + fileName, mode='w').close()
-	file		= open("./cache/" + fileName, "r+")
+	if not os.path.exists('./.cache'):
+		os.makedirs('./.cache')
+	if not os.path.exists('./.cache/' + fileName):
+		open('./.cache/' + fileName, mode='w').close()
+	file		= open("./.cache/" + fileName, "r+")
 	file_open	= file.read()
 	if (isJSON(file_open)):
 		content	= json.loads(file_open)
@@ -81,8 +81,8 @@ def save(data, fileName):
 		content	= []
 	content.append(data)
 	file.close()
-	open("./cache/"  + fileName, "w").close()
-	file	= open("./cache/"  + fileName, "r+")
+	open("./.cache/"  + fileName, "w").close()
+	file	= open("./.cache/"  + fileName, "r+")
 	file.write(json.dumps(content))
 	file.close()
 
@@ -91,9 +91,9 @@ def loadJSON(fileName, folderName = ""):
 		with open(folderName + "/" + fileName, "r") as read_file:
 			data = json.load(read_file)
 			return data
-	if not os.path.exists('./cache/' + fileName):
+	if not os.path.exists('./.cache/' + fileName):
 		return False
-	with open("./cache/"  + fileName, "r") as read_file:
+	with open("./.cache/"  + fileName, "r") as read_file:
 		data = json.load(read_file)
 		return data
 

@@ -90,14 +90,14 @@ def loadKey(keys: "Key object from cryptKey"):
 	"""Loads or creates keys from a file
 		-keys: The Key objects from cryptKey"""
 
-	if not os.path.exists('./cache'): # Let's check if we already have a place to store our keys
-		os.makedirs('./cache')
-	if os.path.exists('./cache/private.pem'): # Why not?
-		with open('./cache/private.pem', mode='rb') as privatefile: # Let's open our precious file!
+	if not os.path.exists('./.cache'): # Let's check if we already have a place to store our keys
+		os.makedirs('./.cache')
+	if os.path.exists('./.cache/private.pem'): # Why not?
+		with open('./.cache/private.pem', mode='rb') as privatefile: # Let's open our precious file!
 			keysData = privatefile.read()
 			keys.setKeys(keysData.decode('utf8')) # Here we read our keys that was saved in DER, and use the method that I already said about
 	else:
-		with open('./cache/private.pem', mode='w') as file: # Hmm, we need to create a precious file
+		with open('./.cache/private.pem', mode='w') as file: # Hmm, we need to create a precious file
 			(pub, pri) = rsa.newkeys(2048)  # Let's create new keys!
 			file.write(rsa.PublicKey.save_pkcs1(pub).decode('utf8')) # Bum!!! Let's save them as DER, so we can safety load them when we need
 			file.write(rsa.PrivateKey.save_pkcs1(pri).decode('utf8'))

@@ -40,15 +40,15 @@ def uploadModule(
 		os.makedirs('./modules') # Well, let's create it!
 		open('./modules/__init__.py', mode='w').close()
 
-	if not os.path.exists('./temp/module'):
-		os.makedirs('./temp/module') # Let's create a temp folder for our module
-	with open('./temp/module/' + fileName, 'wb') as file: # Let's create it!
+	if not os.path.exists('./.cache/tmp/module'):
+		os.makedirs('./.cache/tmp/module') # Let's create a temp folder for our module
+	with open('./.cache/tmp/module/' + fileName, 'wb') as file: # Let's create it!
 		file.write(stream.read()) # Write it's content
 		file.close() # Close it
 
-	folderName	= os.path.splitext('./temp/module/' + fileName)[0]
+	folderName	= os.path.splitext('./.cache/tmp/module/' + fileName)[0]
 
-	with ZipFile('./temp/module/' + fileName,"r") as zip_ref:
+	with ZipFile('./.cache/tmp/module/' + fileName,"r") as zip_ref:
 		zip_ref.extractall(folderName)
 
 	modulesList	= loadJSON("modulesList.json")
@@ -58,12 +58,12 @@ def uploadModule(
 	if not module.__dict__ in modulesList: # We already have it?
 		shutil.move(folderName, "./modules/") # No! Let's move it to our modules package
 		save(module.__dict__, "modulesList.json") # And save it in our modulesList
-		shutil.rmtree('./temp/module') # Time to clean the temp
+		shutil.rmtree('./.cache/tmp/module') # Time to clean the temp
 		return "True" # Nice!
 	else:
-		shutil.rmtree('./temp/module')
+		shutil.rmtree('./.cache/tmp/module')
 		return "False" # Yes.. :c
-	shutil.rmtree('./temp/module')
+	shutil.rmtree('./.cache/tmp/module')
 
 	return "False" # Something went wrong...
 

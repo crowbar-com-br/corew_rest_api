@@ -10,17 +10,15 @@ def getAPI():
 	return hug.API(__name__)
 
 def updateAPI():
-	readFile = open("./app.py")
-	lines = readFile.readlines()
-	readFile.close()
-
-	a = open("./app.py",'a')
-	a.write(' ')
+	a		= open("./app.py",'a')
+	lines	= a.readlines()
+	a.write('#')
 	a.close()
-
+	
 	w = open("./app.py",'w')
 	w.writelines([item for item in lines[:-1]])
 	w.close()
+	return "Success!"
 
 modules	= mod.loadModules(getAPI())
 
@@ -54,8 +52,7 @@ def list():
 def uploadModule(request):
 	mod.uploadModule(request.headers['FILENAME'], request.stream)
 	mod.loadModules(getAPI())
-	updateAPI() # TODO: FIND A BETTER WAY
-	return "Success!"
+	return updateAPI() # TODO: FIND A BETTER WAY
 
 @api.get(
 	'/{slug_one}/'
@@ -183,3 +180,4 @@ def isJSON(content: "A expected JSON"):
 		object = json.loads(content)
 	except:
 		return False
+	return True

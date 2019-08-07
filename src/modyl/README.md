@@ -31,7 +31,7 @@ $ nano test.py
 ```
 import hug
 
-def start(api):
+def start(api): # This is the method called when the module is loaded
 
   def tested():
     return "Yeahhhh!!!!"
@@ -53,7 +53,7 @@ $ nano info.json
 }
 ```
 8. Now, zip this files and the module is done!
-9. And, let's test it:
+9. And, let's add it to our REST API:
 ```
-$ curl -v -H "filename: test.zip" -H "Content-Type: applications/octet-stream" --data-binary @test.zip -X POST http://localhost:8000/uploadModule
+$ curl -v -H "filename: test.zip" -H "Content-Type: applications/octet-stream" --data-binary @test.zip -X POST http://localhost:8000/modules
 ```

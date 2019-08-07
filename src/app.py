@@ -23,7 +23,7 @@ def updateAPI():
 	w.close()
 	return "Success!"
 
-modules	= mod.loadModules(getAPI())
+modules, errors = mod.loadModules(getAPI())
 
 @api.get(
 	'/publicKey',

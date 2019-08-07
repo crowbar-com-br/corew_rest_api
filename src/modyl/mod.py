@@ -22,14 +22,21 @@ def loadModules(api	: "Hug API object, used to register our modules on the REST 
 	if not os.path.exists('./.cache/modulesList.json'):
 		open('./.cache/modulesList.json', mode='w').write('[]')
 	list	= loadJSON("modulesList.json") # Let's load our list of modules
-	error	= [] # Well, nothing is perfect, we never know
+	errors	= [] # Well, nothing is perfect, we never know
 	for module in list:
 		try:
 			mod	= importlib.import_module("modules." + module["file"] + "." + module["file"]) # So, we find the module on our module package, there we estore it
 			mod.start(api) # Let's start it! I hope...
-		except: # TODO: Report broken modules
-			error.append(module) # Aaaannnddd we got a rotten apple
-	return	list
+		except Exception as e: # TODO: Report broken modules
+			errors.append({
+				"module": module,
+				"error": str(e.__class__) + " " + str(e)
+			}) # Aaaannnddd we got a rotten apple
+	if errors:
+		print("Modules errors:")
+		for error in errors:
+			print("\tModule " + error['module']['name'] + "\n\tError: " + error['error'])
+	return	list, errors
 
 def uploadModule(
 		fileName		: "The name of the zip file, wich contains the package of the module",

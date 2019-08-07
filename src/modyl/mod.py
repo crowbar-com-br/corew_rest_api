@@ -32,6 +32,7 @@ def loadModules(api	: "Hug API object, used to register our modules on the REST 
 				"module": module,
 				"error": str(e.__class__) + " " + str(e)
 			}) # Aaaannnddd we got a rotten apple
+			list.remove(module)
 	if errors:
 		print("Modules errors:")
 		for error in errors:

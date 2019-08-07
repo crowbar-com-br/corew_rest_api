@@ -47,12 +47,15 @@ def getStatus():
 		'Memory': psutil.virtual_memory()[2]
 	}
 
-@api.get('/')
-def list():
-	return modules
+@api.get('/modules')
+def listModules():
+	return {
+		"active_modules": modules,
+		"broken_modules": errors
+	}
 
-@api.post()
-def uploadModule(request):
+@api.post('/modules')
+def addModule(request):
 	mod.uploadModule(request.headers['FILENAME'], request.stream, request.content_length)
 	mod.loadModules(getAPI())
 	return updateAPI() # TODO: FIND A BETTER WAY

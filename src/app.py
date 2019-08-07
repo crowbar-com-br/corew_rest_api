@@ -19,7 +19,7 @@ def updateAPI():
 	a.close()
 
 	w = open("./app.py",'w')
-	w.writelines([item for item in lines[:-1]])
+	w.writelines([item for item in lines])
 	w.close()
 	return "Success!"
 

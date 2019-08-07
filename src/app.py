@@ -10,11 +10,14 @@ def getAPI():
 	return hug.API(__name__)
 
 def updateAPI():
+	r		= open("./app.py",'r')
+	lines	= r.readlines()
+	r.close()
+
 	a		= open("./app.py",'a')
-	lines	= a.readlines()
 	a.write('#')
 	a.close()
-	
+
 	w = open("./app.py",'w')
 	w.writelines([item for item in lines[:-1]])
 	w.close()
@@ -50,7 +53,7 @@ def list():
 
 @api.post()
 def uploadModule(request):
-	mod.uploadModule(request.headers['FILENAME'], request.stream)
+	mod.uploadModule(request.headers['FILENAME'], request.stream, request.content_length)
 	mod.loadModules(getAPI())
 	return updateAPI() # TODO: FIND A BETTER WAY
 

@@ -32,8 +32,9 @@ def loadModules(api	: "Hug API object, used to register our modules on the REST 
 	return	list
 
 def uploadModule(
-		fileName	: "The name of the zip file, wich contains the package of the module",
-		stream		: "A zip file, in package format"
+		fileName		: "The name of the zip file, wich contains the package of the module",
+		stream			: "A zip file, in package format",
+		content_length	: "The lenght of the file"
 	): # Method used to upload modules into the REST API, wich will create a package 'modules' for these modules, upload them into the same and list them into the 'modulesList'
 
 	if not os.path.exists('./modules'): # We need the modules package
@@ -43,7 +44,7 @@ def uploadModule(
 	if not os.path.exists('./.cache/tmp/module'):
 		os.makedirs('./.cache/tmp/module') # Let's create a temp folder for our module
 	with open('./.cache/tmp/module/' + fileName, 'wb') as file: # Let's create it!
-		file.write(stream.read()) # Write it's content
+		file.write(stream.read(content_length or 0)) # Write it's content
 		file.close() # Close it
 
 	folderName	= os.path.splitext('./.cache/tmp/module/' + fileName)[0]

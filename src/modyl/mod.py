@@ -65,7 +65,7 @@ def uploadModule(
 	module		= Module(info['name'], info['description'], info['file'], info['version'], info['author']) # Let's get a module object from it!
 
 	if not module.__dict__ in modulesList: # We already have it?
-		shutil.move(folderName, "./modules/") # No! Let's move it to our modules package
+		shutil.move(folderName, './modules/') # No! Let's move it to our modules package
 		save(module.__dict__, "modulesList.json") # And save it in our modulesList
 		shutil.rmtree('./.cache/tmp/module') # Time to clean the temp
 		return module # Nice!
@@ -75,6 +75,26 @@ def uploadModule(
 	shutil.rmtree('./.cache/tmp/module')
 
 	return False # Something went wrong...
+
+def removeModule(name):
+
+	if not os.path.exists('./modules'): # We need the modules package
+		os.makedirs('./modules') # Well, let's create it!
+		open('./modules/__init__.py', mode='w').close()
+
+	modulesList	= loadJSON('modulesList.json')
+
+	module		= next((item for item in modulesList if item['name'] == name), None)
+
+	try:
+		shutil.rmtree('./modules/' + module['name'])
+	except Exception as e:
+		e = e
+	try:
+		delete(module, "modulesList.json")
+	except ValueError as e:
+		return False
+	return True
 
 def save(data, fileName):
 	""" """
@@ -92,6 +112,24 @@ def save(data, fileName):
 	file.close()
 	open("./.cache/"  + fileName, "w").close()
 	file	= open("./.cache/"  + fileName, "r+")
+	file.write(json.dumps(content))
+	file.close()
+
+def delete(data, filename):
+	if not os.path.exists('./.cache'):
+		os.makedirs('./.cache')
+	if not os.path.exists('./.cache/' + filename):
+		open('./.cache/' + filename, mode='w').close()
+	file		= open("./.cache/" + filename, "r+")
+	file_open	= file.read()
+	if (isJSON(file_open)):
+		content	= json.loads(file_open)
+	else:
+		content	= []
+	content.remove(data)
+	file.close()
+	open("./.cache/"  + filename, "w").close()
+	file	= open("./.cache/"  + filename, "r+")
 	file.write(json.dumps(content))
 	file.close()
 

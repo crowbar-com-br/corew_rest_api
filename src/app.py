@@ -63,6 +63,12 @@ def addModule(request):
 			return modulo 
 	return False
 
+@api.delete('/modules/{name}')
+def removeModule(name, request):
+	if not mod.removeModule(name):
+		return "Not found"
+	return None
+
 @api.get(
 	'/{slug_one}/'
 ) # THIS IS RIDICULOUS

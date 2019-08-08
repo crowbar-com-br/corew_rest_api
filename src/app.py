@@ -21,7 +21,7 @@ def updateAPI():
 	w = open("./app.py",'w')
 	w.writelines([item for item in lines])
 	w.close()
-	return "Success!"
+	return True
 
 modules, errors = mod.loadModules(getAPI())
 
@@ -56,9 +56,12 @@ def listModules():
 
 @api.post('/modules')
 def addModule(request):
-	mod.uploadModule(request.headers['FILENAME'], request.stream, request.content_length)
-	mod.loadModules(getAPI())
-	return updateAPI() # TODO: FIND A BETTER WAY
+	modulo	= mod.uploadModule(request.headers['FILENAME'], request.stream, request.content_length)
+	if modulo:
+		mod.loadModules(getAPI())
+		if updateAPI(): # TODO: FIND A BETTER WAY
+			return modulo 
+	return False
 
 @api.get(
 	'/{slug_one}/'

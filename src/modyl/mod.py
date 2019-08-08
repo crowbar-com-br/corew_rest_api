@@ -68,13 +68,13 @@ def uploadModule(
 		shutil.move(folderName, "./modules/") # No! Let's move it to our modules package
 		save(module.__dict__, "modulesList.json") # And save it in our modulesList
 		shutil.rmtree('./.cache/tmp/module') # Time to clean the temp
-		return "True" # Nice!
+		return module # Nice!
 	else:
 		shutil.rmtree('./.cache/tmp/module')
-		return "False" # Yes.. :c
+		return False # Yes.. :c
 	shutil.rmtree('./.cache/tmp/module')
 
-	return "False" # Something went wrong...
+	return False # Something went wrong...
 
 def save(data, fileName):
 	""" """

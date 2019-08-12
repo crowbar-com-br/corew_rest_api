@@ -60,7 +60,7 @@ def addModule(request):
 	if modulo:
 		mod.loadModules(getAPI())
 		if updateAPI(): # TODO: FIND A BETTER WAY
-			return modulo 
+			return modulo
 	return False
 
 @api.delete('/modules/{name}')

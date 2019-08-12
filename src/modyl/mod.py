@@ -27,7 +27,7 @@ def loadModules(api	: "Hug API object, used to register our modules on the REST 
 		try:
 			mod	= importlib.import_module("modules." + module["file"] + "." + module["file"]) # So, we find the module on our module package, there we estore it
 			mod.start(api) # Let's start it! I hope...
-		except Exception as e: # TODO: Report broken modules
+		except Exception as e:
 			errors.append({
 				"module": module,
 				"error": str(e.__class__) + " " + str(e)
